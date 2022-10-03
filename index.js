@@ -1,4 +1,4 @@
-let exerciceArray = [
+const basicArray = [
   { pic: 0, min: 1 },
   { pic: 1, min: 1 },
   { pic: 2, min: 1 },
@@ -10,6 +10,16 @@ let exerciceArray = [
   { pic: 8, min: 1 },
   { pic: 9, min: 1 },
 ];
+let exerciceArray = [];
+
+// Get stored exercice arrey
+(() => {
+  if (localStorage.exercices) {
+    exerciceArray = JSON.parse(localStorage.exercices);
+  } else {
+    exerciceArray = basicArray;
+  }
+})();
 
 const utils = {
   pageContent: function (titre, content, btn) {
