@@ -11,12 +11,32 @@ let exerciceArray = [
   { pic: 9, min: 1 },
 ];
 
-const utils = {};
+const utils = {
+  pageContent: function (titre, content, btn) {
+    document.querySelector("h1").innerHTML = titre;
+    document.querySelector("main").innerHTML = content;
+    document.querySelector(".btn-container").innerHTML = btn;
+  },
+};
 
 const page = {
-  lobby: function () {},
-  routine: function () {},
-  finish: function () {},
+  lobby: function () {
+    utils.pageContent(
+      "Paramétrage",
+      "<ul></ul>",
+      "<button id='start'>Commencer <i class='far fa-play-circle'></i></button>"
+    );
+  },
+  routine: function () {
+    utils.pageContent("Routine", "mes exos", null);
+  },
+  finish: function () {
+    utils.pageContent(
+      "C'est terminé !",
+      "<button id='start'>Recommencer</button>",
+      "<button id='reboot' class='btn-reboot'>Réinitialiser <i class='fas fa-times-circle'></i></button>"
+    );
+  },
 };
 
 page.lobby();
