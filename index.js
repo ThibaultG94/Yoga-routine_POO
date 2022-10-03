@@ -30,15 +30,39 @@ const utils = {
 
   handleEventMinutes: function () {
     document.querySelectorAll('input[type="number"]').forEach((input) => {
-      addEventListener("input", (e) => {
+      input.addEventListener("input", (e) => {
         exerciceArray.map((exo) => {
           if (exo.pic == e.target.id) {
             exo.min = parseInt(e.target.value);
-            localStorage.exercices = JSON.stringify(exerciceArray);
+            this.store();
           }
         });
       });
     });
+  },
+
+  handleEventArrow: function () {
+    let position = 0;
+    document.querySelectorAll(".arrow").forEach((arrow) => {
+      arrow.addEventListener("click", (e) => {
+        exerciceArray.map((exo) => {
+          if (exo.pic == e.target.dataset.pic && position !== 0) {
+            [exerciceArray[position], exerciceArray[position - 1]] = [
+              exerciceArray[position - 1],
+              exerciceArray[position],
+            ];
+            page.lobby();
+            this.store();
+          } else {
+            position++;
+          }
+        });
+      });
+    });
+  },
+
+  store: function () {
+    localStorage.exercices = JSON.stringify(exerciceArray);
   },
 };
 
@@ -66,6 +90,7 @@ const page = {
       "<button id='start'>Commencer <i class='far fa-play-circle'></i></button>"
     );
     utils.handleEventMinutes();
+    utils.handleEventArrow();
   },
 
   routine: function () {
