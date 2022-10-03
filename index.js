@@ -42,9 +42,9 @@ const utils = {
   },
 
   handleEventArrow: function () {
-    let position = 0;
     document.querySelectorAll(".arrow").forEach((arrow) => {
       arrow.addEventListener("click", (e) => {
+        let position = 0;
         exerciceArray.map((exo) => {
           if (exo.pic == e.target.dataset.pic && position !== 0) {
             [exerciceArray[position], exerciceArray[position - 1]] = [
@@ -61,6 +61,19 @@ const utils = {
     });
   },
 
+  deleteItem: function () {
+    document.querySelectorAll(".deleteBtn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const newArr = exerciceArray.filter((exo) => {
+          return exo.pic != e.target.dataset.pic;
+        });
+        exerciceArray = newArr;
+        page.lobby();
+        this.store();
+      });
+    });
+  },
+
   store: function () {
     localStorage.exercices = JSON.stringify(exerciceArray);
   },
@@ -69,16 +82,16 @@ const utils = {
 const page = {
   lobby: function () {
     let mapArray = exerciceArray
-      .map((exercice) => {
+      .map((exo) => {
         return `
         <li>
           <div class='card-header'>
-            <input type='number' id='${exercice.pic}' min='1' max='10' value='${exercice.min}'>
+            <input type='number' id='${exo.pic}' min='1' max='10' value='${exo.min}'>
             <span>min</span>
           </div>
-          <img src="./img/${exercice.pic}.png" alt="Exercice de Yoga">
-          <i class='fas fa-arrow-circle-left arrow' data-pic='${exercice.pic}'></i>
-          <i class='fas fa-times-circle deleteBtn' data-pic='${exercice.pic}'></i>
+          <img src="./img/${exo.pic}.png" alt="Exercice de Yoga">
+          <i class='fas fa-arrow-circle-left arrow' data-pic='${exo.pic}'></i>
+          <i class='fas fa-times-circle deleteBtn' data-pic='${exo.pic}'></i>
         </li>
       `;
       })
@@ -91,6 +104,7 @@ const page = {
     );
     utils.handleEventMinutes();
     utils.handleEventArrow();
+    utils.deleteItem();
   },
 
   routine: function () {
