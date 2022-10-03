@@ -21,15 +21,33 @@ const utils = {
 
 const page = {
   lobby: function () {
+    let mapArray = exerciceArray
+      .map((exercice) => {
+        return `
+        <li>
+          <div class='card-header'>
+            <input type='number' id='${exercice.pic}' min='1' max='10' value='${exercice.min}'>
+            <span>min</span>
+          </div>
+          <img src="./img/${exercice.pic}.png" alt="Exercice de Yoga">
+          <i class='fas fa-arrow-circle-left arrow' data-pic='${exercice.pic}'></i>
+          <i class='fas fa-times-circle deleteBtn' data-pic='${exercice.pic}'></i>
+        </li>
+      `;
+      })
+      .join("");
+
     utils.pageContent(
-      "Paramétrage",
-      "<ul></ul>",
+      "Paramétrage <i id='reboot' class='fas fa-undo'></i>",
+      "<ul>" + mapArray + "</ul>",
       "<button id='start'>Commencer <i class='far fa-play-circle'></i></button>"
     );
   },
+
   routine: function () {
     utils.pageContent("Routine", "mes exos", null);
   },
+
   finish: function () {
     utils.pageContent(
       "C'est terminé !",
