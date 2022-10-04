@@ -1,3 +1,4 @@
+const main = document.querySelector("main");
 const basicArray = [
   { pic: 0, min: 1 },
   { pic: 1, min: 1 },
@@ -29,13 +30,42 @@ class Exercice {
   }
 
   updateCountdown() {
-    return `
+    this.seconds = this.seconds < 10 ? "0" + this.seconds : this.seconds;
+
+    setTimeout(() => {
+      if (this.minutes == 0 && this.seconds == 0) {
+        this.index++;
+        this.ring();
+        if (this.index < exerciceArray.length) {
+          this.minutes = exerciceArray[this.index].min;
+          this.seconds = 0;
+          this.updateCountdown();
+        } else {
+          page.finish();
+        }
+      } else if (this.seconds == 0) {
+        this.minutes--;
+        this.seconds = 59;
+        this.updateCountdown();
+      } else {
+        this.seconds--;
+        this.updateCountdown();
+      }
+    }, 10);
+
+    return (main.innerHTML = `
       <div class="exercice-container">
-        <p>${this.minutes} : ${this.seconds}</p>
+        <p>${this.minutes}:${this.seconds}</p>
         <img src="./img/${this.index}.png" />
-        <div>${this.index}/${exerciceArray.length}</div>
+        <div>${this.index + 1}/${exerciceArray.length}</div>
       </div>
-    `;
+    `);
+  }
+
+  ring() {
+    const audio = new Audio();
+    audio.src = "./ring.mp3";
+    audio.play();
   }
 }
 
