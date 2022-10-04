@@ -21,6 +21,24 @@ let exerciceArray = [];
   }
 })();
 
+class Exercice {
+  constructor() {
+    this.index = 0;
+    this.minutes = exerciceArray[this.index].min;
+    this.seconds = 0;
+  }
+
+  updateCountdown() {
+    return `
+      <div class="exercice-container">
+        <p>${this.minutes} : ${this.seconds}</p>
+        <img src="./img/${this.index}.png" />
+        <div>${this.index}/${exerciceArray.length}</div>
+      </div>
+    `;
+  }
+}
+
 const utils = {
   pageContent: function (titre, content, btn) {
     document.querySelector("h1").innerHTML = titre;
@@ -112,10 +130,12 @@ const page = {
     utils.handleEventArrow();
     utils.deleteItem();
     reboot.addEventListener("click", () => utils.reboot());
+    start.addEventListener("click", () => this.routine());
   },
 
   routine: function () {
-    utils.pageContent("Routine", "mes exos", null);
+    const exercice = new Exercice();
+    utils.pageContent("Routine", exercice.updateCountdown(), null);
   },
 
   finish: function () {
