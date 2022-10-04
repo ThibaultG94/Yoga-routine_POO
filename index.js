@@ -27,6 +27,19 @@ const utils = {
     document.querySelector("main").innerHTML = content;
     document.querySelector(".btn-container").innerHTML = btn;
   },
+
+  handleEventMinutes: function () {
+    exerciceArray.map((exo) => {
+      document.querySelectorAll('input[type="number"]').forEach((input) => {
+        input.addEventListener("input", (e) => {
+          if (exo.pic == e.target.id) {
+            exo.min = parseInt(e.target.value);
+            console.log(exerciceArray);
+          }
+        });
+      });
+    });
+  },
 };
 
 const page = {
@@ -50,6 +63,7 @@ const page = {
       "<ul>" + mapArray + "</ul>",
       "<button id='start'>Commencer <i class='far fa-play-cirlce></i></button>'"
     );
+    utils.handleEventMinutes();
   },
   routine: function () {
     utils.pageContent(null, null, null);
