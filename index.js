@@ -74,6 +74,12 @@ const utils = {
     });
   },
 
+  reboot: function () {
+    exerciceArray = basicArray;
+    page.lobby();
+    this.store();
+  },
+
   store: function () {
     localStorage.exercices = JSON.stringify(exerciceArray);
   },
@@ -105,6 +111,7 @@ const page = {
     utils.handleEventMinutes();
     utils.handleEventArrow();
     utils.deleteItem();
+    reboot.addEventListener("click", () => utils.reboot());
   },
 
   routine: function () {
