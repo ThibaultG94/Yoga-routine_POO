@@ -34,11 +34,15 @@ const utils = {
         input.addEventListener("input", (e) => {
           if (exo.pic == e.target.id) {
             exo.min = parseInt(e.target.value);
-            console.log(exerciceArray);
+            this.store();
           }
         });
       });
     });
+  },
+
+  store: function () {
+    localStorage.exercices = JSON.stringify(exerciceArray);
   },
 };
 
