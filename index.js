@@ -41,6 +41,30 @@ const utils = {
     });
   },
 
+  handleEventArrow: function () {
+    let position = 0;
+    exerciceArray.map((exo) => {
+      document.querySelectorAll(".arrow").forEach((arrow) => {
+        arrow.addEventListener("click", (e) => {
+          if (exo.pic == e.target.dataset.pic) {
+            if (position !== 0) {
+              [exerciceArray[position], exerciceArray[position - 1]] = [
+                exerciceArray[position - 1],
+                exerciceArray[position],
+              ];
+              this.store();
+              page.lobby();
+            } else {
+              page.lobby();
+            }
+          } else {
+            position++;
+          }
+        });
+      });
+    });
+  },
+
   store: function () {
     localStorage.exercices = JSON.stringify(exerciceArray);
   },
@@ -68,6 +92,7 @@ const page = {
       "<button id='start'>Commencer <i class='far fa-play-cirlce></i></button>'"
     );
     utils.handleEventMinutes();
+    utils.handleEventArrow();
   },
   routine: function () {
     utils.pageContent(null, null, null);
