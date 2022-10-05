@@ -30,9 +30,11 @@ class Exercice {
 
   updateCountdown = () => {
     if (this.seconds < 10) this.seconds = "0" + this.seconds;
+
     setTimeout(() => {
       if (this.minutes == 0 && this.seconds == 0) {
         this.index++;
+        this.ring();
         if (this.index < exerciceArray.length) {
           this.minutes = exerciceArray[this.index].min;
           this.seconds = 0;
@@ -58,6 +60,12 @@ class Exercice {
           <div>${this.index + 1}/${exerciceArray.length}</div>
         </div>
         `);
+  };
+
+  ring = () => {
+    const audio = new Audio();
+    audio.src = "./ring.mp3";
+    audio.play();
   };
 }
 
@@ -86,17 +94,13 @@ const utils = {
     exerciceArray.map((exo) => {
       document.querySelectorAll(".arrow").forEach((arrow) => {
         arrow.addEventListener("click", (e) => {
-          if (exo.pic == e.target.dataset.pic) {
-            if (position !== 0) {
-              [exerciceArray[position], exerciceArray[position - 1]] = [
-                exerciceArray[position - 1],
-                exerciceArray[position],
-              ];
-              this.store();
-              page.lobby();
-            } else {
-              page.lobby();
-            }
+          if (exo.pic == e.target.dataset.pic && position !== 0) {
+            [exerciceArray[position], exerciceArray[position - 1]] = [
+              exerciceArray[position - 1],
+              exerciceArray[position],
+            ];
+            this.store();
+            page.lobby();
           } else {
             position++;
           }
@@ -156,10 +160,12 @@ const page = {
     reboot.addEventListener("click", () => utils.reboot());
     start.addEventListener("click", () => this.routine());
   },
+
   routine: function () {
     const exercice = new Exercice();
     utils.pageContent("Routine", exercice.updateCountdown(), null);
   },
+
   finish: function () {
     utils.pageContent(
       "C'est terminé !",
