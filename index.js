@@ -161,7 +161,14 @@ const page = {
     utils.pageContent("Routine", exercice.updateCountdown(), null);
   },
   finish: function () {
-    utils.pageContent(null, null, null);
+    utils.pageContent(
+      "C'est terminé !",
+      "<button id='start'>Recommencer</button>",
+      "<button id='reboot' class='btn-reboot'>Réinitialiser <i class='fas fa-times-circle'></button>"
+    );
+
+    start.addEventListener("click", () => this.routine());
+    reboot.addEventListener("click", () => utils.reboot());
   },
 };
 
