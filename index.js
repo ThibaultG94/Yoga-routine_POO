@@ -65,6 +65,19 @@ const utils = {
     });
   },
 
+  deleteItem: function () {
+    document.querySelectorAll(".deleteBtn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const newArray = exerciceArray.filter((exo) => {
+          if (exo.pic != e.target.dataset.pic) return exo;
+        });
+        exerciceArray = newArray;
+        page.lobby();
+        this.store();
+      });
+    });
+  },
+
   store: function () {
     localStorage.exercices = JSON.stringify(exerciceArray);
   },
@@ -93,6 +106,7 @@ const page = {
     );
     utils.handleEventMinutes();
     utils.handleEventArrow();
+    utils.deleteItem();
   },
   routine: function () {
     utils.pageContent(null, null, null);
