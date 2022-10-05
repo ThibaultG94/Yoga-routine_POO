@@ -21,6 +21,46 @@ let exerciceArray = [];
   }
 })();
 
+class Exercice {
+  constructor() {
+    this.index = 0;
+    this.minutes = exerciceArray[this.index].min;
+    this.seconds = 0;
+  }
+
+  updateCountdown = () => {
+    if (this.seconds < 10) this.seconds = "0" + this.seconds;
+    setTimeout(() => {
+      if (this.minutes == 0 && this.seconds == 0) {
+        this.index++;
+        if (this.index < exerciceArray.length) {
+          this.minutes = exerciceArray[this.index].min;
+          this.seconds = 0;
+          this.updateCountdown();
+        } else {
+          page.finish();
+        }
+      } else if (this.seconds == 0) {
+        this.minutes--;
+        this.seconds = 59;
+        this.updateCountdown();
+      } else {
+        this.seconds--;
+        this.updateCountdown();
+      }
+    }, 1000);
+
+    return (document.querySelector("main").innerHTML = `
+        <div class="exercice-container">
+          <p>${this.minutes}:${this.seconds}</p>
+          <img src="./img/${this.index}.png" 
+          alt="exercice de yoga n°${this.index + 1}"/>
+          <div>${this.index + 1}/${exerciceArray.length}</div>
+        </div>
+        `);
+  };
+}
+
 const utils = {
   pageContent: function (titre, content, btn) {
     document.querySelector("h1").innerHTML = titre;
@@ -117,7 +157,8 @@ const page = {
     start.addEventListener("click", () => this.routine());
   },
   routine: function () {
-    utils.pageContent(null, null, null);
+    const exercice = new Exercice();
+    utils.pageContent("Routine", exercice.updateCountdown(), null);
   },
   finish: function () {
     utils.pageContent(null, null, null);
